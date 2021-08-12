@@ -1,4 +1,5 @@
 import { GetStaticProps } from 'next';
+import Prismic from '@prismicio/client';
 
 import { getPrismicClient } from '../services/prismic';
 
@@ -24,17 +25,46 @@ interface HomeProps {
   postsPagination: PostPagination;
 }
 
-export default function Home() {
+export default function Home({ postsPagination }: HomeProps): JSX.Element {
   return (
-    <div>
-      <h1>Oi</h1>
-    </div>
+    <main className={styles.contentContainer}>
+      <section className={styles.contentLogo}>
+        <img src="/images/logo.svg" alt="Logo da Aplicação" />
+      </section>
+      <section>
+        <div className={styles.post}>
+          <h2>Como utilizar Hooks</h2>
+          <p>Pensando em sincronização em vez de ciclos de via</p>
+          <div className={styles.postInfo}>
+            <time>
+              <img src="/images/calendar.svg" alt="Icone calendário" />
+              15 Mar 2021
+            </time>
+            <span>
+              <img src="/images/user.svg" alt="Icone pessoa" />
+              Joseph Oliveira
+            </span>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }
 
-// export const getStaticProps = async () => {
-//   // const prismic = getPrismicClient();
-//   // const postsResponse = await prismic.query(TODO);
+export const getStaticProps: GetStaticProps = async () => {
+  // const prismic = getPrismicClient();
 
-//   // TODO
-// };
+  // const response = await prismic.query(
+  //   [Prismic.predicates.at('document.type', 'documento_desafio')],
+  //   {
+  //     fetch: ['documento_desafio.title', 'documento_desafio.subtitle'],
+  //     pageSize: 1,
+  //   }
+  // );
+
+  return {
+    props: {
+      postsPagination: [],
+    },
+  };
+};
