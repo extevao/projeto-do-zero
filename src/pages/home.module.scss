@@ -32,6 +32,10 @@
     margin-bottom: 1.6rem;
     font-weight: 400;
   }
+
+  & + .post {
+    margin-top: 3rem;
+  }
 }
 
 .postInfo {
@@ -45,4 +49,8 @@
     align-items: center;
     gap: 0.5rem;
   }
+}
+
+.carregarMaisPosts {
+  margin-top: 3rem;
 }

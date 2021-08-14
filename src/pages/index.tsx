@@ -1,6 +1,9 @@
 import { GetStaticProps } from 'next';
 import Prismic from '@prismicio/client';
 
+import { format } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
+
 import { getPrismicClient } from '../services/prismic';
 
 import commonStyles from '../styles/common.module.scss';
@@ -32,39 +35,50 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
         <img src="/images/logo.svg" alt="Logo da Aplicação" />
       </section>
       <section>
-        <div className={styles.post}>
-          <h2>Como utilizar Hooks</h2>
-          <p>Pensando em sincronização em vez de ciclos de via</p>
-          <div className={styles.postInfo}>
-            <time>
-              <img src="/images/calendar.svg" alt="Icone calendário" />
-              15 Mar 2021
-            </time>
-            <span>
-              <img src="/images/user.svg" alt="Icone pessoa" />
-              Joseph Oliveira
-            </span>
+        {postsPagination.results.map(post => (
+          <div className={styles.post} key={post.uid}>
+            <h2>{post.data.title}</h2>
+            <p>{post.data.subtitle}</p>
+            <div className={styles.postInfo}>
+              <time>
+                <img src="/images/calendar.svg" alt="Icone calendário" />
+                {format(new Date(post.first_publication_date), 'd LLL yyyy', {
+                  locale: ptBR,
+                })}
+              </time>
+              <span>
+                <img src="/images/user.svg" alt="Icone pessoa" />
+                {post.data.author}
+              </span>
+            </div>
           </div>
-        </div>
+        ))}
+        <button className={styles.carregarMaisPosts} type="button">
+          Carregar mais posts
+        </button>
       </section>
     </main>
   );
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  // const prismic = getPrismicClient();
+  const prismic = getPrismicClient();
 
-  // const response = await prismic.query(
-  //   [Prismic.predicates.at('document.type', 'documento_desafio')],
-  //   {
-  //     fetch: ['documento_desafio.title', 'documento_desafio.subtitle'],
-  //     pageSize: 1,
-  //   }
-  // );
+  const response = await prismic.query(
+    [Prismic.predicates.at('document.type', 'documento_desafio')],
+    {
+      fetch: [
+        'documento_desafio.title',
+        'documento_desafio.subtitle',
+        'documento_desafio.author',
+      ],
+      pageSize: 2,
+    }
+  );
 
   return {
     props: {
-      postsPagination: [],
+      postsPagination: response,
     },
   };
 };
