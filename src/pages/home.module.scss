@@ -53,4 +53,16 @@
 
 .carregarMaisPosts {
   margin-top: 3rem;
+  background: none;
+  border: none;
+  color: var(--highlight);
+  font-size: 1.1rem;
+  line-height: 1.3rem;
+  cursor: pointer;
+
+  transition: filter 0.2s;
+
+  &:hover {
+    filter: brightness(0.8);
+  }
 }
