@@ -58,9 +58,7 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
             <div className={styles.postInfo}>
               <time>
                 <img src="/images/calendar.svg" alt="Icone calendário" />
-                {format(new Date(post.first_publication_date), 'd LLL yyyy', {
-                  locale: ptBR,
-                })}
+                {post.first_publication_date}
               </time>
               <span>
                 <img src="/images/user.svg" alt="Icone pessoa" />
@@ -101,7 +99,22 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
-      postsPagination: response,
+      postsPagination: {
+        next_page: response.next_page,
+        results: response.results.map(result => {
+          return {
+            uid: result.uid,
+            first_publication_date: format(
+              new Date(result.first_publication_date),
+              'd LLL yyyy',
+              {
+                locale: ptBR,
+              }
+            ),
+            data: result.data,
+          };
+        }),
+      },
     },
   };
 };
