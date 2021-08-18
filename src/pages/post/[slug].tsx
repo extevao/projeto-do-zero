@@ -1,4 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
+import Header from '../../components/Header';
 
 import { getPrismicClient } from '../../services/prismic';
 
@@ -26,20 +27,57 @@ interface PostProps {
   post: Post;
 }
 
-// export default function Post() {
-//   // TODO
-// }
+export default function Post({ post }: PostProps): JSX.Element {
+  console.log(post);
+  return (
+    <>
+      <Header />
+      <img src="/images/Banner.png" alt="imagem post" />
+      <main className={`${commonStyles.contentContainer} ${styles.main}`}>
+        <div className={`${commonStyles.post} ${styles.post}`}>
+          <h2>Criando um app CRA do zero</h2>
+          <div className={commonStyles.postInfo}>
+            <time>
+              <img src="/images/calendar.svg" alt="Icone calendário" />
+              15 Mar 2021
+            </time>
+            <span>
+              <img src="/images/user.svg" alt="Icone pessoa" />
+              Joseph Oliveira
+            </span>
+            <span>
+              <img src="/images/clock.svg" alt="Icone relogio" /> 4 min
+            </span>
+          </div>
+        </div>
+      </main>
+    </>
+  );
+}
 
-// export const getStaticPaths = async () => {
-//   const prismic = getPrismicClient();
-//   const posts = await prismic.query(TODO);
+export const getStaticPaths: GetStaticPaths = async () => {
+  // const prismic = getPrismicClient();
+  // const posts = await prismic.query(TODO);
+  // TODO
 
-//   // TODO
-// };
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+};
 
-// export const getStaticProps = async context => {
-//   const prismic = getPrismicClient();
-//   const response = await prismic.getByUID(TODO);
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { slug } = params;
+  const prismic = getPrismicClient();
+  const response = await prismic.getByUID(
+    'documento_desafio',
+    String(slug),
+    {}
+  );
 
-//   // TODO
-// };
+  return {
+    props: {
+      post: response,
+    },
+  };
+};

@@ -1,54 +1,7 @@
 // TODO
-.contentContainer {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 2rem;
-  section {
-    width: 700px;
-  }
-}
 
 .contentLogo {
   margin: 4.3rem 0;
-}
-
-.post {
-  h2 {
-    font-size: 1.9rem;
-    line-height: 2.3rem;
-    text-align: justify;
-    font-weight: bold;
-  }
-
-  p {
-    font-size: 1.2rem;
-    line-height: 1.6rem;
-    color: var(--body);
-    margin-top: 0.6rem;
-    margin-bottom: 1.6rem;
-    font-weight: 400;
-  }
-
-  & + .post {
-    margin-top: 3rem;
-  }
-}
-
-.postInfo {
-  display: flex;
-  gap: 2rem;
-  color: var(--body);
-
-  time,
-  span {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
 }
 
 .carregarMaisPosts {

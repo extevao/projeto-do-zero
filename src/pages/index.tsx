@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next';
 import Prismic from '@prismicio/client';
+import Link from 'next/link';
 
 import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
@@ -46,16 +47,18 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
   }
 
   return (
-    <main className={styles.contentContainer}>
+    <main className={commonStyles.contentContainer}>
       <section className={styles.contentLogo}>
         <img src="/images/logo.svg" alt="Logo da Aplicação" />
       </section>
       <section>
         {posts.map(post => (
-          <div className={styles.post} key={post.uid}>
-            <h2>{post.data.title}</h2>
+          <div className={commonStyles.post} key={post.uid}>
+            <Link href={`/post/${post.uid}`}>
+              <h2>{post.data.title}</h2>
+            </Link>
             <p>{post.data.subtitle}</p>
-            <div className={styles.postInfo}>
+            <div className={commonStyles.postInfo}>
               <time>
                 <img src="/images/calendar.svg" alt="Icone calendário" />
                 {post.first_publication_date}
