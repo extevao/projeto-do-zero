@@ -49,7 +49,7 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
   return (
     <main className={commonStyles.contentContainer}>
       <section className={styles.contentLogo}>
-        <img src="/images/logo.svg" alt="Logo da Aplicação" />
+        <img src="/images/logo.svg" alt="logo" />
       </section>
       <section>
         {posts.map(post => (
