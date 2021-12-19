@@ -2,15 +2,13 @@ import { GetStaticProps } from 'next';
 import Prismic from '@prismicio/client';
 import Link from 'next/link';
 
-import { format } from 'date-fns';
-import ptBR from 'date-fns/locale/pt-BR';
-
 import { useState } from 'react';
 import ApiSearchResponse from '@prismicio/client/types/ApiSearchResponse';
 import { getPrismicClient } from '../services/prismic';
 
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
+import { formataData } from '../utils/format';
 
 interface Post {
   uid?: string;
@@ -29,12 +27,6 @@ interface PostPagination {
 
 interface HomeProps {
   postsPagination: PostPagination;
-}
-
-function formataData(date: string): string {
-  return format(new Date(date), 'd LLL yyyy', {
-    locale: ptBR,
-  });
 }
 
 export default function Home({ postsPagination }: HomeProps): JSX.Element {

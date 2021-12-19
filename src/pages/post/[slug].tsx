@@ -4,6 +4,7 @@ import Header from '../../components/Header';
 import { getPrismicClient } from '../../services/prismic';
 
 import commonStyles from '../../styles/common.module.scss';
+import { formataData } from '../../utils/format';
 import styles from './post.module.scss';
 
 interface Post {
@@ -35,15 +36,15 @@ export default function Post({ post }: PostProps): JSX.Element {
       <img src="/images/Banner.png" alt="imagem post" />
       <main className={`${commonStyles.contentContainer} ${styles.main}`}>
         <div className={`${commonStyles.post} ${styles.post}`}>
-          <h2>Criando um app CRA do zero</h2>
+          <h2>{post.data.title}</h2>
           <div className={commonStyles.postInfo}>
             <time>
               <img src="/images/calendar.svg" alt="Icone calendário" />
-              15 Mar 2021
+              {formataData(post.first_publication_date)}
             </time>
             <span>
               <img src="/images/user.svg" alt="Icone pessoa" />
-              Joseph Oliveira
+              {post.data.author}
             </span>
             <span>
               <img src="/images/clock.svg" alt="Icone relogio" /> 4 min
