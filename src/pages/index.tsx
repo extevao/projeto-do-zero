@@ -31,6 +31,12 @@ interface HomeProps {
   postsPagination: PostPagination;
 }
 
+function formataData(date: string): string {
+  return format(new Date(date), 'd LLL yyyy', {
+    locale: ptBR,
+  });
+}
+
 export default function Home({ postsPagination }: HomeProps): JSX.Element {
   const [posts, setPosts] = useState<Post[]>(postsPagination.results);
   const [nextPage, setNextPage] = useState(postsPagination.next_page);
@@ -61,7 +67,7 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
             <div className={commonStyles.postInfo}>
               <time>
                 <img src="/images/calendar.svg" alt="Icone calendário" />
-                {post.first_publication_date}
+                {formataData(post.first_publication_date)}
               </time>
               <span>
                 <img src="/images/user.svg" alt="Icone pessoa" />
@@ -95,7 +101,7 @@ export const getStaticProps: GetStaticProps = async () => {
         'documento_desafio.subtitle',
         'documento_desafio.author',
       ],
-      pageSize: 2,
+      pageSize: 1,
       page: 1,
     }
   );
@@ -107,17 +113,16 @@ export const getStaticProps: GetStaticProps = async () => {
         results: response.results.map(result => {
           return {
             uid: result.uid,
-            first_publication_date: format(
-              new Date(result.first_publication_date),
-              'd LLL yyyy',
-              {
-                locale: ptBR,
-              }
-            ),
-            data: result.data,
+            first_publication_date: result.first_publication_date,
+            data: {
+              title: result.data.title,
+              subtitle: result.data.subtitle,
+              author: result.data.author,
+            },
           };
         }),
       },
     },
+    revalidate: 10,
   };
 };
