@@ -1,6 +1,7 @@
 import { GetStaticProps } from 'next';
-import Prismic from '@prismicio/client';
 import Link from 'next/link';
+
+import Prismic from '@prismicio/client';
 
 import { useState } from 'react';
 import ApiSearchResponse from '@prismicio/client/types/ApiSearchResponse';
@@ -93,7 +94,7 @@ export const getStaticProps: GetStaticProps = async () => {
         'documento_desafio.subtitle',
         'documento_desafio.author',
       ],
-      pageSize: 1,
+      pageSize: 2,
       page: 1,
     }
   );

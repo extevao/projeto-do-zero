@@ -1,4 +1,8 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
+
+import Prismic from '@prismicio/client';
+
 import Header from '../../components/Header';
 
 import { getPrismicClient } from '../../services/prismic';
@@ -29,6 +33,12 @@ interface PostProps {
 }
 
 export default function Post({ post }: PostProps): JSX.Element {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <div>Carregando...</div>;
+  }
+
   console.log(post);
   return (
     <>
@@ -57,13 +67,27 @@ export default function Post({ post }: PostProps): JSX.Element {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // const prismic = getPrismicClient();
-  // const posts = await prismic.query(TODO);
-  // TODO
+  const prismic = getPrismicClient();
+  const posts = await prismic.query(
+    [Prismic.predicates.at('document.type', 'documento_desafio')],
+    {
+      fetch: ['documento_desafio.uid'],
+      pageSize: 2,
+      page: 1,
+    }
+  );
+
+  console.log('[getStaticPaths]');
+
+  const paths = posts.results.map(result => {
+    return { params: { slug: result.uid } };
+  });
+
+  console.log(paths);
 
   return {
-    paths: [],
-    fallback: 'blocking',
+    paths,
+    fallback: true,
   };
 };
 
@@ -80,5 +104,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       post: response,
     },
+    revalidate: 60,
   };
 };
